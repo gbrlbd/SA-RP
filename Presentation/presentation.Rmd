@@ -1,0 +1,46 @@
+---
+title: "Reproducile Pitch Presentation"
+output:
+  ioslides_presentation:
+    widescreen: true
+date: "2025-01-07"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+```
+
+## Application
+This application allows to see the trend of four european stock markets by selection the desired range of dates. It is also possible to calculate the mean value of the indexes in the specified period. 
+
+
+## Github
+The application code is available here: https://github.com/gbrlbd/SA-RP
+
+By running the app it's possible to see both the application and a documentation section that explains the functioning.
+
+## Markets
+The following graph shows the data of the app from the EuStockMarkets dataset.
+
+```{r, include = TRUE}
+library(datasets)
+library(plotly)
+eu_stocks <- as.data.frame(EuStockMarkets)
+
+eu_stocks$Date <- seq(from = as.Date("1991-01-01"), by = "days", length.out = nrow(eu_stocks))
+
+plot <- plot_ly(eu_stocks, x = ~Date) %>%
+  add_lines(y = ~DAX, name = "DAX", line = list(color = 'blue')) %>%
+  add_lines(y = ~SMI, name = "SMI", line = list(color = 'red')) %>%
+  add_lines(y = ~CAC, name = "CAC", line = list(color = 'green')) %>%
+  add_lines(y = ~FTSE, name = "FTSE", line = list(color = 'purple')) %>%
+  layout(
+    title = "European Stock Market Indices",
+    xaxis = list(title = "Date"),
+    yaxis = list(title = "Index Value"),
+    legend = list(title = list(text = "Indices"))
+  )
+plot
+```
+
+## Thanks
